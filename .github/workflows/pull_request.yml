@@ -35,12 +35,12 @@ jobs:
           ISSUER: ${{github.event.sender.login}}
           REPORT_RESULT: |
             $(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)
-            body =  '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n 'cat t.txt' " }'
-            echo $body
         run: |
           tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt > t.txt
           cat t.txt
           echo $URL
+          body =  '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n 'cat t.txt' " }'
+          echo $body
           curl \
             -X POST \
             $URL \
