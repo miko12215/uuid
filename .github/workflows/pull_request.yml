@@ -18,14 +18,12 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Tests with Maven
-        run: mvn -DtestSourceDirectory=src/test/java test --batch-mode --fail-at-end
+        run: mvn -DtestSourceDirectory=src/test/java test --batch-mode --fail-at-end --log-file log.txt
       - name: Publish Test Report
         if: ${{ always() }}
         uses: scacap/action-surefire-report@v1
-      - name: echo commit message
-        run: echo "${{ github.event.pull_request.head.label }}"
-      - name: print all event
-        run: echo "${{toJSON(github.event)}}"
+      - name: test get line number
+        run: grep -Fn '[INFO] Results:' log.txt \
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Add comment to PR
