@@ -34,7 +34,7 @@ jobs:
           COMMIT_MESSAGE: ${{ github.event.pull_request.head.label }}
           ISSUER: ${{github.event.sender.login}}
           REPORT_RESULT: |
-                          tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt
+            $(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)
         run: |
           curl \
             -X POST \
