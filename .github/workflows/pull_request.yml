@@ -23,7 +23,8 @@ jobs:
         if: ${{ always() }}
         uses: scacap/action-surefire-report@v1
       - name: test get line number
-        run: echo $(sed -n '/[INFO] Results:/' log.txt)
+        run: | 
+            grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Add comment to PR
