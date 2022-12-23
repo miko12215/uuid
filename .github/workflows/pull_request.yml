@@ -44,4 +44,4 @@ jobs:
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n  " }'
+            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n 'cat t.txt' " }'
