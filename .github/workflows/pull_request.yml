@@ -42,4 +42,4 @@ jobs:
             --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER'" }'
       - name: test print
         run: |
-            tail -n -$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt
+            tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt
