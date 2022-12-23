@@ -36,12 +36,13 @@ jobs:
           REPORT_RESULT: |
             $(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)
         run: |
+          val = $(< tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt) > 
           curl \
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n '$(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)' " }'
+            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n '$val' " }'
       - name: test print
         run: |
             tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt
