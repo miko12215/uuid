@@ -33,10 +33,11 @@ jobs:
           URL: ${{ github.event.pull_request.comments_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MESSAGE: ${{ github.event.pull_request.head.label }}
+          ISSUER: ${{github.event.sender.login}}
         run: |
           curl \
             -X POST \
             $URL \
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests" }'
+            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER'" }'
