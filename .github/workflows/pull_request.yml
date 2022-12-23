@@ -36,7 +36,7 @@ jobs:
           REPORT_RESULT: |
             $(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)
         run: |
-          tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt) > t.txt
+          tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt > t.txt
           curl \
             -X POST \
             $URL \
