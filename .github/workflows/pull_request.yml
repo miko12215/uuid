@@ -37,6 +37,7 @@ jobs:
             $(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)
         run: |
           tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt > t.txt
+          cat t.txt
           echo $URL
           curl \
             -X POST \
@@ -44,14 +45,3 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
             --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n '$(cat t.txt)' " }'
-      - name: test print
-        run: |
-            tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          junit_files: "test-results/junit/**/*.xml"
-          nunit_files: "test-results/nunit/**/*.xml"
-          xunit_files: "test-results/xunit/**/*.xml"
-          trx_files: "test-results/**/*.trx"
