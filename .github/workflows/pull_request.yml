@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Run tests
 
 on:
   pull_request:
@@ -17,25 +17,21 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      - name: Tests with Maven
-        run: mvn -DtestSourceDirectory=src/test/java test --batch-mode --fail-at-end --log-file log.txt
-      - name: Publish Test Report
-        if: ${{ always() }}
-        uses: scacap/action-surefire-report@v1
-      - name: test get line number
-        run: grep -Fn '[INFO] Results:' log.txt \
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-      - name: Add comment to PR
-        env:
-          URL: ${{ github.event.pull_request.comments_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMIT_MESSAGE: ${{ github.event.pull_request.head.label }}
-          ISSUER: ${{github.event.sender.login}}
+      - name: print events
+        run: cat /home/runner/work/_temp/_github_workflow/event.json
+      - name: Generate report and run tests
+        continue-on-error: true
+        run: mvn surefire-report:report
+      - name: replace unused script
         run: |
-          curl \
-            -X POST \
-            $URL \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER'" }'
+          sed -i '/<script/,/script>/d' target/site/surefire-report.html
+          sed -i 's/title/h1/g' target/site/surefire-report.html
+          sed -i '1i## Issued by: @${{github.event.sender.login}} on branch: `${{ github.event.pull_request.head.label }}` by ${{ github.event.pull_request.base.repo.svn_url }}/pull/${{ github.event.pull_request.number }}/commits/${{ github.event.after }}' target/site/surefire-report.html
+      - name: Create Comment With Report
+        uses: peter-evans/create-or-update-comment@v2.1.0
+        with:
+          issue-number: ${{ github.event.number }}
+          body-file: 'target/site/surefire-report.html'
+      - name: events
+        run: echo ${{ github.event }}
+
