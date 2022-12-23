@@ -40,6 +40,6 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
             --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER'" }'
-      -name: test print
+      - name: test print
         run: |
             tail -n -$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt
