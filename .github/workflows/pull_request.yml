@@ -23,6 +23,7 @@ jobs:
         run: mvn surefire-report:report
         continue-on-error: true
       - name: display files
+        continue-on-error: true
         run: cat target/site/surefire-report.html
       - name: Create or Update Comment
         continue-on-error: true
