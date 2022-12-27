@@ -18,8 +18,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-      - continue-on-error: true
-      - run: mvn -B package --file pom.xml
+        continue-on-error: true
+        run: mvn -B package --file pom.xml
+      - if: success()
+        uses: actions/create-issue-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: "The `mvn package` run successfully."
       - if: failure()
         uses: actions/create-issue-comment@v2
         with:
