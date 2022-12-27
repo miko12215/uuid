@@ -31,7 +31,7 @@ jobs:
             Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
             Tests report can be found in the next comment.
       - name: Convert report to Markdown
-        uses: jpuri/html-to-markdown@v1.1.0
+        uses: siddharthkp/actions/html-to-text@v2
         with:
           html: |
             $(cat target/site/surefire-report.html)
