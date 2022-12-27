@@ -24,9 +24,11 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number: ${{ github.event.number }}
-          body: "The `mvn package` run successfully."
+          body: "Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`.
+          The `mvn package` run successfully."
       - if: failure()
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number: ${{ github.event.number }}
-          body: "The `mvn package` command failed. Please check the logs for more information"
+          body: "Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`.
+          The `mvn package` command failed. Please check the logs for more information"
