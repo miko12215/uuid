@@ -22,7 +22,7 @@ jobs:
       - name: Generate report
         run: mvn surefire-report:report
       - name: display files
-        run: ls -R
+        run: cat target/site/surefire-report.html
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
