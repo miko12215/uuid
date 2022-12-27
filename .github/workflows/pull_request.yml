@@ -39,4 +39,4 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number:  ${{ github.event.number }}
-          body-file: 'test.pdf'
+          body-file: '/github/workspace/dist/test.pdf'
