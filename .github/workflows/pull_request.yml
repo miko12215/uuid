@@ -17,7 +17,8 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      - name:cat /home/runner/work/_temp/_github_workflow/event.json
+      - name: print events
+        run: cat /home/runner/work/_temp/_github_workflow/event.json
       - name: Generate report and run tests
         continue-on-error: true
         run: mvn surefire-report:report
@@ -26,7 +27,7 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body: |
-            ## Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
+            ## Issued by: @${{github.event.sender.login}} on branch: `${{ github.event.pull_request.head.label }}`
             ### Tests report can be found in the next comments.
       - name: replace unused script
         run: |
