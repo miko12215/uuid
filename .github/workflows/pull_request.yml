@@ -30,13 +30,15 @@ jobs:
           body: |
             Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
             Tests report can be found in the next comment.
-      - name: Convert report to Markdown
-        uses: markwilson/html2pdf@v1.0
+      - name: Convert HTML to Markdown
+        id: html2markdown
+        if: always()
+        uses: rknj/html2markdown@v0.1.0
         with:
-          htmlPath: 'target/site/surefire-report.html'
-          pdfName: 'test'
+          html-file: "target/site/surefire-report.html"
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number:  ${{ github.event.number }}
-          body-file: '/github/workspace/dist/test.pdf'
+          body: |
+            ${{ steps.html2markdown.outputs.markdown-content }}
