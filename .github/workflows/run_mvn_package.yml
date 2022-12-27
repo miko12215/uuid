@@ -23,10 +23,10 @@ jobs:
       - if: success()
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
-          issue-number: ${{ github.event.issue.number }}
+          issue-number: ${{ github.event.number }}
           body: "The `mvn package` run successfully."
       - if: failure()
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
-          issue-number: ${{ github.event.issue.number }}
+          issue-number: ${{ github.event.number }}
           body: "The `mvn package` command failed. Please check the logs for more information"
