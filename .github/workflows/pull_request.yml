@@ -39,3 +39,5 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body-file: 'target/site/surefire-report.html'
+      - name: events
+        run: echo ${{ github.event }}
