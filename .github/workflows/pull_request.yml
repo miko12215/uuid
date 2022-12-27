@@ -27,8 +27,8 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body: |
-            Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
-            Tests report can be found in the next comments.
+            ## Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
+            ### Tests report can be found in the next comments.
       - name: replace unused script
         run: |
           sed -i '/<script/,/script>/d' target/site/surefire-report.html
