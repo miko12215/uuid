@@ -19,6 +19,14 @@ jobs:
           cache: maven
       - name: Tests with Maven
         run: mvn -DtestSourceDirectory=src/test/java test --batch-mode --fail-at-end --log-file log.txt
+      - name: Generate report
+        run: mvn surefire-report:report
+      - name: Add report as a comment
+        uses: peter-evans/create-or-update-pull-request-comment@v2
+        with:
+          body: |
+            Test results:
+            ${{ steps.generate-report.outputs.html }}
       - name: Publish Test Report
         if: ${{ always() }}
         uses: scacap/action-surefire-report@v1
@@ -48,3 +56,5 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token $GITHUB_TOKEN" \
             --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n '$( cat tt.txt )' " }'
+  
+
