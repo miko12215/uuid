@@ -20,14 +20,10 @@ jobs:
       - name: Build with Maven
         continue-on-error: true
         run: mvn -B package --file pom.xml
-      - name: Generate report
+      - name: Generate report and run tests
         continue-on-error: true
         run: mvn surefire-report:report
-      - name: display files
-        continue-on-error: true
-        run: cat target/site/surefire-report.html
-      - name: Create or Update Comment
-        continue-on-error: true
+      - name: Create comment with issuer
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number: ${{ github.event.number }}
@@ -35,12 +31,10 @@ jobs:
             Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
             Tests report can be found in the next comment.
       - name: replace unused script
-        continue-on-error: true
         run: |
           sed -i '/<script/,/script>/d' target/site/surefire-report.html
           sed -i 's/title/h1/g' target/site/surefire-report.html
-      - name: Create or Update Comment
-        continue-on-error: true
+      - name: Create Comment With Report
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number: ${{ github.event.number }}
