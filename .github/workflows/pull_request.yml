@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: print events
-        run: echo $ {{ github.event }}
+        run: echo "$GITHUB_EVENT_PATH"
       - name: Generate report and run tests
         continue-on-error: true
         run: mvn surefire-report:report
