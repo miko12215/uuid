@@ -32,7 +32,7 @@ jobs:
             Tests report can be found in the next comment.
       - name: replace unused script
         run: |
-          sed 's///<!.*//]]>://' target/site/surefire-report.html
+          sed -i 's/\bCDATA\b.*\bnone:\b//' your_file
       - name: Convert HTML to Markdown
         id: html2markdown
         if: always()
