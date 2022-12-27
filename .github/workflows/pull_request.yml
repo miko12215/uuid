@@ -24,6 +24,7 @@ jobs:
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
+          issue-number: 2
           body: |
             Test results:
             ${{ steps.generate-report.outputs.html }}
