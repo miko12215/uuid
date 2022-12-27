@@ -17,6 +17,8 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
+      - name: print events
+        run: echo $ {{ github.event }}
       - name: Generate report and run tests
         continue-on-error: true
         run: mvn surefire-report:report
