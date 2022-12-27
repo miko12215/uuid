@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Tests with Maven
-        run: mvn -DtestSourceDirectory=src/test/java test --batch-mode --fail-at-end --log-file log.txt
+        run: mvn -DtestSourceDirectory=src/test/java test
       - name: Generate report
         run: mvn surefire-report:report
       - name: display files
@@ -26,6 +26,7 @@ jobs:
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
+          issue-number:  ${{ github.event.number }}
           body: Test results
           file: target/site/surefire-report.html
       - name: Publish Test Report
