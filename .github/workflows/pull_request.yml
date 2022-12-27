@@ -27,6 +27,8 @@ jobs:
           sed -i '/<script/,/script>/d' target/site/surefire-report.html
           sed -i 's/title/h1/g' target/site/surefire-report.html
           sed -i '1i## Issued by: @${{github.event.sender.login}} on branch: `${{ github.event.pull_request.head.label }}` by ${{ github.event.pull_request.base.repo.svn_url }}/pull/${{ github.event.pull_request.number }}/commits/${{ github.event.after }}' target/site/surefire-report.html
+          sed -i '1i<details>\n<summary>Expand full report</summary>\n' target/site/surefire-report.html
+          sed -i -e '$a\n</details>' target/site/surefire-report.html
       - name: Create Comment With Report
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
