@@ -35,18 +35,6 @@ jobs:
         run: |
           sed -i '/<script/,/script>/d' target/site/surefire-report.html
           sed -i 's/title/h1/g' target/site/surefire-report.html
-      - name: Convert HTML to Markdown
-        id: html2markdown
-        if: always()
-        uses: rknj/html2markdown@v0.1.0
-        with:
-          html-file: "target/site/surefire-report.html"
-      - name: Create or Update Comment
-        uses: peter-evans/create-or-update-comment@v2.1.0
-        with:
-          issue-number:  ${{ github.event.number }}
-          body: |
-            ${{ steps.html2markdown.outputs.markdown-content }}
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
