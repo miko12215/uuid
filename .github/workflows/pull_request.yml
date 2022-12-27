@@ -17,8 +17,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      - name: print events
-        run: echo "$GITHUB_EVENT_PATH"
+      - name:cat /home/runner/work/_temp/_github_workflow/event.json
       - name: Generate report and run tests
         continue-on-error: true
         run: mvn surefire-report:report
