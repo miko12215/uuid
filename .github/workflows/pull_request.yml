@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Run tests
 
 on:
   pull_request:
@@ -10,14 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: maven
-    - name: Tests with Maven
-      run: mvn -B test --file pom.xml
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+      - name: print events
+        run: cat /home/runner/work/_temp/_github_workflow/event.json
+      - name: Generate report and run tests
+        continue-on-error: true
+        run: mvn surefire-report:report
+      - name: manipulation on report file to make it readable
+        run: |
+          sed -i '/<script/,/script>/d' target/site/surefire-report.html
+          sed -i 's/title/h1/g' target/site/surefire-report.html
+          sed -i '1i<details>\n<summary>Expand full tests report</summary>\n' target/site/surefire-report.html
+          sed -i '1i## Issued by: @${{github.event.sender.login}} on branch: `${{ github.event.pull_request.head.label }}` by ${{ github.event.pull_request.base.repo.svn_url }}/pull/${{ github.event.pull_request.number }}/commits/${{ github.event.after }}' target/site/surefire-report.html
+          sed -i -e '$a</details>' target/site/surefire-report.html
+      - name: Create Comment With Report
+        uses: peter-evans/create-or-update-comment@v2.1.0
+        with:
+          issue-number: ${{ github.event.number }}
+          body-file: 'target/site/surefire-report.html'
+
