@@ -30,6 +30,9 @@ jobs:
           body: |
             Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
             Tests report can be found in the next comment.
+      - name: replace unused script
+        run: |
+          sed 's///<!.*//]]>://' target/site/surefire-report.html
       - name: Convert HTML to Markdown
         id: html2markdown
         if: always()
