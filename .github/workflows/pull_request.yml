@@ -17,8 +17,8 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      - name: Tests with Maven
-        run: mvn -DtestSourceDirectory=src/test/java test
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
       - name: Generate report
         run: mvn surefire-report:report
       - name: display files
@@ -28,19 +28,10 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body: |
-            ${{github.event.sender.login}} with  ${{ github.event.pull_request.head.label }}
+            Issued by: `${{github.event.sender.login}}` on branch: `${{ github.event.pull_request.head.label }}`
+            Tests report can be found in the next comment.
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number:  ${{ github.event.number }}
           body-file: 'target/site/surefire-report.html'
-      - name: Publish Test Report
-        if: ${{ always() }}
-        uses: scacap/action-surefire-report@v1
-      - name: test get line number
-        run: | 
-            grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-
