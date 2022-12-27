@@ -27,9 +27,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           issue-number: 2
-          body: |
-            Test results:
-            ${{ target/site/surefire-report.html }}
+          body-file: 'target/site/surefire-report.html'
       - name: Publish Test Report
         if: ${{ always() }}
         uses: scacap/action-surefire-report@v1
