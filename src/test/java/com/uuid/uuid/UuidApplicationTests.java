@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.Assert;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -13,7 +16,7 @@ class UuidApplicationTests {
 	void contextLoads() {
 
 
-sdfsdfsdf
+		Assert.isTrue(false);
 
 
 	}
