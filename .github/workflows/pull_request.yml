@@ -42,13 +42,5 @@ jobs:
             grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: Add comment to PR
-        env:
-          URL: ${{ github.event.pull_request.comments_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMIT_MESSAGE: ${{ github.event.pull_request.head.label }}
-          ISSUER: ${{github.event.sender.login}}
-          REPORT_RESULT: |
-            $(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)
-  
+
 
