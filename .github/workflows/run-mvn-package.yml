@@ -18,8 +18,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        continue-on-error: true
-        run: mvn -B package --file pom.xml
+      - continue-on-error: true
+      - run: mvn -B package --file pom.xml
       - if: failure()
           uses: actions/create-issue-comment@v2
           with:
