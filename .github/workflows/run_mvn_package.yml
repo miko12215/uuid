@@ -20,13 +20,13 @@ jobs:
       - name: Build with Maven
       - continue-on-error: true
       - run: mvn -B package --file pom.xml
-      - if: failure()
-          uses: actions/create-issue-comment@v2
-          with:
-            issue-number: ${{ github.event.issue.number }}
-            body: "The `mvn package` command failed. Please check the logs for more information"
       - if: success()
         uses: actions/create-issue-comment@v2
         with:
           issue-number: ${{ github.event.issue.number }}
           body: "The `mvn package` run successfully."
+      - if: failure()
+          uses: actions/create-issue-comment@v2
+          with:
+            issue-number: ${{ github.event.issue.number }}
+            body: "The `mvn package` command failed. Please check the logs for more information"
