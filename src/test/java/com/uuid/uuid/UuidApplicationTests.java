@@ -15,9 +15,7 @@ class UuidApplicationTests {
 	@Test
 	void contextLoads() {
 
-
 		assertEquals(1, 1);
-
 
 	}
 
