@@ -16,7 +16,7 @@ class UuidApplicationTests {
 	void contextLoads() {
 
 
-		Assert.isTrue(false);
+		assertEquals(1, 2);
 
 
 	}
