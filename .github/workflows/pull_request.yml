@@ -26,6 +26,12 @@ jobs:
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v2.1.0
         with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            ${{github.event.sender.login}} with  ${{ github.event.pull_request.head.label }}
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v2.1.0
+        with:
           issue-number:  ${{ github.event.number }}
           body-file: 'target/site/surefire-report.html'
       - name: Publish Test Report
@@ -44,18 +50,5 @@ jobs:
           ISSUER: ${{github.event.sender.login}}
           REPORT_RESULT: |
             $(tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt)
-        run: |
-          tail -n +$(grep -Fwn '[INFO] Results:' log.txt | cut -d: -f1) log.txt > t.txt
-          cat t.txt
-          sed 's/-/ /g' t.txt > tt.txt
-          echo $URL
-          body='{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by '$ISSUER' Report '$( cat tt.txt )' " }'
-          echo $body
-          curl \
-            -X POST \
-            $URL \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            --data '{ "body": " '$COMMIT_MESSAGE' successfully passed tests runned by: '$ISSUER' Report: \n '$( cat tt.txt )' " }'
   
 
