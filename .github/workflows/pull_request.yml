@@ -27,9 +27,9 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body: |
-            ## Issued by: @${{github.event.sender.login}} on branch: `${{ github.event.pull_request.head.label }}` by commit:
-            ${{ github.event.pull_request.base.repo.svn_url }}/pull/${{ github.event.pull_request.number }}/commits/${{ github.event.after }}
+            ## Issued by: @${{github.event.sender.login}} on branch: `${{ github.event.pull_request.head.label }}` by ${{ github.event.pull_request.base.repo.svn_url }}/pull/${{ github.event.pull_request.number }}/commits/${{ github.event.after }}
             ### Tests report can be found in the next comments.
+            $(cat 'target/site/surefire-report.html')
       - name: replace unused script
         run: |
           sed -i '/<script/,/script>/d' target/site/surefire-report.html
