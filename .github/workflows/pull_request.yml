@@ -21,6 +21,7 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Generate report
         run: mvn surefire-report:report
+        continue-on-error: true
       - name: display files
         run: cat target/site/surefire-report.html
       - name: Create or Update Comment
